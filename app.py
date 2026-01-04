@@ -24,5 +24,20 @@ def insert_meal():
     
     return jsonify({"message": "Invalid data"}), 400
 
+@app.route("/meal/<int:id_meal>", methods=['PUT'])
+def update_meal(id_meal):
+    data=request.json
+    meal=Meal.query.get(id_meal)
+
+    if meal:
+        meal.name=data.get("name")
+        meal.description=data.get("description")
+        meal.time=data.get("time")
+        meal.indicator=data.get("indicator")
+        db.session.commit()
+        return jsonify({"message": "Meal successfully updated!"})
+    
+    return jsonify({"message": "Meal not found"}), 404
+
 if __name__ == '__main__':
     app.run(debug=True)
