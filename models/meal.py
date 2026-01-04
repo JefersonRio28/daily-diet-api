@@ -8,3 +8,12 @@ class Meal(db.Model, UserMixin):
     description = db.Column(db.String(100), nullable=False)
     time = db.Column(db.String(80), nullable=False)
     indicator = db.Column(db.String(80), nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "time": self.time,
+            "indicator": self.indicator
+        }

@@ -71,5 +71,14 @@ def read_meal_list():
     
     return jsonify({"message": "The meal list is empty"})
 
+@app.route("/meal/<int:id_meal>", methods=['GET'])
+def read_meal(id_meal):
+    meal = Meal.query.get(id_meal)
+
+    if meal:
+        return jsonify(meal.to_dict())
+
+    return jsonify({"message": "Meal not found"}), 404
+
 if __name__ == '__main__':
     app.run(debug=True)
