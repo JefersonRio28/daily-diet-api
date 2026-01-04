@@ -20,7 +20,7 @@ def insert_meal():
         meal = Meal(name=meal_name, description=meal_description, time=meal_time, indicator=meal_indicator)
         db.session.add(meal)
         db.session.commit()
-        return jsonify({"message": "Meal successfully inserted!"})
+        return jsonify({"message": "Meal successfully inserted!", "id": meal.id})
     
     return jsonify({"message": "Invalid data"}), 400
 
@@ -67,7 +67,7 @@ def read_meal_list():
             }
             meals_list.append(meal_data)
 
-        return jsonify({"meals": meals_list})
+        return jsonify({"meals": meals_list, "total meals": len(meals_list)})
     
     return jsonify({"message": "The meal list is empty"})
 
