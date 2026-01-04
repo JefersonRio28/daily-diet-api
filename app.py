@@ -27,7 +27,7 @@ def insert_meal():
 @app.route("/meal/<int:id_meal>", methods=['PUT'])
 def update_meal(id_meal):
     data=request.json
-    meal=Meal.query.get(id_meal)
+    meal = Meal.query.get(id_meal)
 
     if meal:
         meal.name=data.get("name")
@@ -41,7 +41,7 @@ def update_meal(id_meal):
 
 @app.route("/meal/<int:id_meal>", methods=['DELETE'])
 def delete_meal(id_meal):
-    meal=Meal.query.get(id_meal)
+    meal = Meal.query.get(id_meal)
 
     if meal:
         db.session.delete(meal)
@@ -49,6 +49,27 @@ def delete_meal(id_meal):
         return jsonify({"message": "Meal successfully deleted!"})
     
     return jsonify({"message": "Meal not found"}), 404    
+
+@app.route("/meal", methods=['GET'])
+def read_meal_list():
+    meals = Meal.query.all()
+    
+    if meals:
+        meals_list = []
+
+        for meal in meals:
+            meal_data = {
+                "id": meal.id,
+                "name": meal.name,
+                "description": meal.description,
+                "time": meal.time,
+                "indicator": meal.indicator
+            }
+            meals_list.append(meal_data)
+
+        return jsonify({"meals": meals_list})
+    
+    return jsonify({"message": "The meal list is empty"})
 
 if __name__ == '__main__':
     app.run(debug=True)
